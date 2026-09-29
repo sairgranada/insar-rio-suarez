@@ -1,0 +1,3 @@
+stack,fechas,interferogramas,interferogramas_usados,fecha_referencia,fechas_excluidas,punto_referencia_lat_lon,pixeles_confiables_cuenca_pct,velocidad_mediana_mm_anio,velocidad_P2_mm_anio,velocidad_P98_mm_anio
+ASCENDING_R77_F1199,24,45,27,20250503,ninguna,"615360.0000, 643440.0000",75.1,1.2,-52.0,51.7
+DESCENDING_R69_F572,114,221,196,20250819,ninguna,"609200.0000, 709200.0000",51.4,-3.7,-39.2,25.5

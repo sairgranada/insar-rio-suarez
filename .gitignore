@@ -1,0 +1,6 @@
+01_datos/hyp3/*/*
+!01_datos/hyp3/*/.gitkeep
+02_mintpy/*
+!02_mintpy/.gitkeep
+.ipynb_checkpoints/
+.cdsapirc
