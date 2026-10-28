@@ -1,0 +1,10 @@
+﻿fecha,lat,lon,prof_km,mag,tipo_mag,lugar,id,dist_km,estacion
+2024-06-23 03:57:58.918,10.6921,-62.6868,77.0,6.0,mww,"20 km al NE de Yaguaraparo, Venezuela",us7000mu1p,1315.3977631020098,VELZ
+2024-10-12 17:43:44.516,10.4967,-86.1497,16.0,6.2,mww,"40 km al ONO de Tamarindo, Costa Rica",us6000nyau,1465.2303420103783,VELZ
+2025-03-21 14:50:51.364,6.9863,-82.4666,10.0,6.2,mww,"124 km al SSE de Burica, Panama",us7000pllt,981.1608295563954,VELZ
+2025-04-25 11:44:52.634,1.0835,-79.5319,18.0,6.3,mww,"19 km al NE de Esmeraldas, Ecuador",us7000pv06,848.5636115694087,VELZ
+2025-06-08 13:08:05.797,4.4852,-73.1248,9.0,6.3,mww,"15 km al NE de Paratebueno, Colombia",us6000qixr,173.56722709827235,VELZ
+2025-07-14 17:16:49.051,6.1706,-82.7372,10.0,6.2,mww,"206 km al S de Burica, Panama",us7000qclp,1005.440718743457,VELZ
+2025-09-24 22:21:55.716,9.8668,-70.8781,9.0,6.2,mww,"5 km al ENE de Mene Grande, Venezuela",us6000rcnw,530.9718308860432,VELZ
+2025-09-25 03:51:39.565,9.9355,-70.7081,14.0,6.3,mww,"25 km al ENE de Mene Grande, Venezuela",us6000rcqw,548.0656359422343,VELZ
+2025-12-10 08:27:08.561,6.7742,-73.0156,164.124,5.5,mww,"5 km al ONO de Cepitá, Colombia",us6000rtuk,114.53141750660839,VELZ

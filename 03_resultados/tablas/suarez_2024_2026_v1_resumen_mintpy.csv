@@ -1,3 +1,4 @@
-stack,fechas,interferogramas,interferogramas_usados,fecha_referencia,fechas_excluidas,punto_referencia_lat_lon,pixeles_confiables_cuenca_pct,velocidad_mediana_mm_anio,velocidad_P2_mm_anio,velocidad_P98_mm_anio
-ASCENDING_R77_F1199,24,45,27,20250503,ninguna,"615360.0000, 643440.0000",75.1,1.2,-52.0,51.7
-DESCENDING_R69_F572,114,221,196,20250819,ninguna,"609200.0000, 709200.0000",51.4,-3.7,-39.2,25.5
+Stack,Periodo,Imágenes,Interferogramas (usados / generados),Fechas excluidas,Píxeles confiables (%)
+Ascendente R77 F1199,03/05/2025 a 14/09/2026,24,45 / 59,0,39.2
+Descendente R69 F572,14/03/2022 a 26/09/2026,172,341 / 536,0,45.0
+Descendente R69 F567,14/03/2022 a 26/09/2026,172,341 / 493,0,23.6

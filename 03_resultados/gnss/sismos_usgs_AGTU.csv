@@ -1,0 +1,7 @@
+﻿fecha,lat,lon,prof_km,mag,tipo_mag,lugar,id,dist_km,estacion
+2024-01-20 21:31:05.092,-7.2879,-71.464,607.0,6.6,mww,"123 km al NO de Tarauacá, Brazil",us6000m52p,1439.8374260357516,AGTU
+2024-01-21 17:19:48.289,6.7852,-73.0286,154.112,5.0,mww,"6 km al ONO de Cepitá, Colombia",us6000m59q,145.7758765686235,AGTU
+2024-06-23 03:57:58.918,10.6921,-62.6868,77.0,6.0,mww,"20 km al NE de Yaguaraparo, Venezuela",us7000mu1p,1309.0979180509062,AGTU
+2025-03-21 14:50:51.364,6.9863,-82.4666,10.0,6.2,mww,"124 km al SSE de Burica, Panama",us7000pllt,1018.1691208087298,AGTU
+2025-04-25 11:44:52.634,1.0835,-79.5319,18.0,6.3,mww,"19 km al NE de Esmeraldas, Ecuador",us7000pv06,842.8845337769725,AGTU
+2025-06-08 13:08:05.797,4.4852,-73.1248,9.0,6.3,mww,"15 km al NE de Paratebueno, Colombia",us6000qixr,118.31069768116025,AGTU

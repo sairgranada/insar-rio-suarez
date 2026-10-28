@@ -1,0 +1,3 @@
+sensor,interferogramas,dias_min,dias_max,coh_mediana_cuenca,coh_mediana_bosque
+NISAR,19,12,48,0.52,0.49
+Sentinel-1,266,1,48,0.53,0.43
