@@ -1,10 +1,11 @@
-01_datos/hyp3/*/*
-!01_datos/hyp3/*/.gitkeep
-02_mintpy/*
-!02_mintpy/.gitkeep
+01_datos/
+02_mintpy/
+03_resultados/
+inputs/
+hyp3*/
+HyP3*/
+*.zip
+*.tif
+*.h5
+*.nc
 .ipynb_checkpoints/
-.cdsapirc
-03_resultados/figuras/*
-python -m pip install --upgrade --force-reinstall ipykernel_resultados/figuras/.gitkeep
-01_datos/gnss/*
-rm -rf ~/* ~/.local ~/.cache ~/.conda ~/.jupyter_datos/gnss/.gitkeep

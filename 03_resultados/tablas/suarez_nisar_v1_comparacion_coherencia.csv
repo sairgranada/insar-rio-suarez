@@ -1,9 +1,0 @@
-zona,pixeles,coh_media_S1,coh_media_NISAR,pct_coh>=0.4_S1,pct_coh>=0.4_NISAR,ganancia_NISAR
-Bosque,597709,0.48,0.47,64.81,76.54,-0.01
-Arbustal,3853,0.64,0.66,82.14,98.65,0.02
-Pastizal,334859,0.71,0.55,94.37,95.37,-0.16
-Cultivos,6455,0.76,0.42,99.61,57.49,-0.34
-Urbano,2666,0.91,0.63,99.96,99.7,-0.28
-Suelo desnudo,4697,0.95,0.64,99.96,99.21,-0.31
-Zonas activas,299503,0.63,0.5,91.08,88.61,-0.13
-Toda la cuenca,951292,0.57,0.5,75.8,83.27,-0.07

@@ -1,6 +1,0 @@
-﻿Estación,Fecha,Evento USGS,Lugar,M,Distancia (km),Radio NGL (km),Componente,Salto (mm),Curva posterior,V antes (mm/año),V después (mm/año),Cambio de velocidad
-FQNE,08/06/2025,us6000qixr,"15 km al NE de Paratebueno, Colombia",6.3,128.424,229.087,Este,"1,1 ± 0,2",ninguna,-,-,no
-SUAM,08/06/2025,us6000qixr,"15 km al NE de Paratebueno, Colombia",6.3,137.969,229.087,Este,"2,0 ± 0,4",ninguna,-,-,no
-TUNA,17/08/2023,us7000kp2i,"10 km al E de El Calvario, Colombia",6.1,134.787,181.97,Este,"-3,8 ± 0,3","logarítmica, τ = 1,00 años, -10,3 ± 1,2 mm",-,-,no
-TUNA,17/08/2023,us7000kp2i,"10 km al E de El Calvario, Colombia",6.1,134.787,181.97,Norte,"-33,0 ± 2,0","exponencial, τ = 0,20 años, 40,9 ± 2,2 mm",-,-,no
-VELZ,08/06/2025,us6000qixr,"15 km al NE de Paratebueno, Colombia",6.3,173.571,229.087,Este,"1,8 ± 0,3",ninguna,-,-,no
