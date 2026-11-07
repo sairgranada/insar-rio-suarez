@@ -1,0 +1,72 @@
+usage: closure_phase_bias.py [-h] [-i STACK_FILE] [--wm WATER_MASK_FILE]
+                             [--nl NL] [--bw BW]
+                             [-a {mask,quick_estimate,estimate}]
+                             [--num-sigma NUM_SIGMA] [--eps EPSILON]
+                             [-c {lsf,pbs,slurm,local}]
+                             [--num-worker NUMWORKER] [--config CONFIG]
+                             [--ram MAXMEMORY] [-o OUTDIR]
+
+Phase non-closure related biases correction
+
+options:
+  -h, --help            show this help message and exit
+  -i STACK_FILE, --ifgramstack STACK_FILE
+                        interferogram stack file that contains the unwrapped phases
+  --wm WATER_MASK_FILE, --water-mask WATER_MASK_FILE
+                        Water mask to skip pixels on water body.
+                        Default: waterMask.h5 if exists, otherwise None.
+  --nl NL, --conn-level NL
+                        connection level that we are correcting to (or consider as no bias)
+                        (default: 20)
+  --bw BW               bandwidth of time-series analysis that you want to correct
+  -a {mask,quick_estimate,estimate}, --action {mask,quick_estimate,estimate}
+                        action to take (default: mask):
+                        mask           - create a mask of areas susceptible to closure phase errors
+                        quick_estimate - quick and approximate estimation on how bias decays with time
+                                         output sequential closure phase files
+                        estimate       - estimate how bias decays with time
+                                         processed for each pixel on a pixel by pixel basis [slow]
+  --ram MAXMEMORY, --memory MAXMEMORY
+                        Max amount of memory in GB to use (default: 4.0).
+                        Adjust according to your computer memory.
+  -o OUTDIR             output file directory
+
+Mask:
+  Configuration for closure phase bias mask
+
+  --num-sigma NUM_SIGMA
+                        Threashold for phase, in number of sigmas (default: 3).
+                        Assuming a Gaussian distribution for the cumulative closure phase with sigma = pi / sqrt(3*num_cp)
+  --eps EPSILON, --epsilon EPSILON
+                        Threashold for the normalized amplitude in [0-1] (default: 0.3).
+
+parallel:
+  parallel processing using dask
+
+  -c {lsf,pbs,slurm,local}, --cluster {lsf,pbs,slurm,local}, --cluster-type {lsf,pbs,slurm,local}
+                        Cluster to use for parallel computing (default: None to turn OFF).
+  --num-worker NUMWORKER
+                        Number of workers to use (default: 4).
+  --config CONFIG, --config-name CONFIG
+                        Configuration name to use in dask.yaml (default: None).
+
+reference:
+  Y. Zheng, H. Fattahi, P. Agram, M. Simons and P. Rosen, (2022). On Closure Phase
+    and Systematic Bias in Multi-looked SAR Interferometry, in IEEE Trans. Geosci.
+    Remote Sens., doi:10.1109/TGRS.2022.3167648.
+
+example:
+  # Note: ONLY sequential network is supported in this implementation.
+  # Notebook tutorial:
+  #   https://nbviewer.org/github/insarlab/MintPy-tutorial/blob/main/applications/closure_phase_bias.ipynb
+
+  # create mask for areas susceptible to biases
+  closure_phase_bias.py -i inputs/ifgramStack.h5 --nl 5  -a mask
+  closure_phase_bias.py -i inputs/ifgramStack.h5 --nl 20 -a mask --num-sigma 2.5
+
+  # estimate non-closure phase bias time-series [quick and approximate solution]
+  closure_phase_bias.py -i inputs/ifgramStack.h5 --nl 5  --bw 3  -a quick_estimate --num-worker 6
+
+  # estimate non-closure phase bias time-series
+  closure_phase_bias.py -i inputs/ifgramStack.h5 --nl 5  --bw 3  -a estimate --num-worker 6 -c local
+  closure_phase_bias.py -i inputs/ifgramStack.h5 --nl 20 --bw 10 -a estimate --num-worker 6 -c local

@@ -1,0 +1,357 @@
+[37;49m# vim: set filetype=cfg:[0m
+[37;49m##------------------------ smallbaselineApp.cfg ------------------------##[0m
+[37;49m########## computing resource configuration[0m
+[92;49mmintpy.compute.maxMemory[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[float > 0.0], auto for 4, max memory to alloca[0m
+[37;49m## parallel processing with dask[0m
+[37;49m## currently apply to steps: invert_network, correct_topography[0m
+[37;49m## cluster   = none to turn off the parallel computing[0m
+[37;49m## numWorker = all  to use all of locally available cores (for cluster = local o[0m
+[37;49m## numWorker = 80%  to use 80% of locally available cores (for cluster = local o[0m
+[37;49m## config    = none to rollback to the default name (same as the cluster type; f[0m
+[92;49mmintpy.compute.cluster[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[local / slurm / pbs / lsf / none], auto for no[0m
+[92;49mmintpy.compute.numWorker[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[int > 1 / all / num%], auto for 4 (local) or 4[0m
+[92;49mmintpy.compute.config[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[none / slurm / pbs / lsf ], auto for none (sam[0m
+
+
+[37;49m########## 1. load_data[0m
+[37;49m##---------add attributes manually[0m
+[37;49m## MintPy requires attributes listed at: https://mintpy.readthedocs.io/en/latest[0m
+[37;49m## Missing attributes can be added below manually (uncomment #), e.g.[0m
+[37;49m# ORBIT_DIRECTION = ascending[0m
+[37;49m# PLATFORM = CSK[0m
+[37;49m# ...[0m
+[37;49m## a. autoPath - automatic path pattern defined in mintpy.defaults.auto_path.AUT[0m
+[37;49m## b. load_data.py -H to check more details and example inputs.[0m
+[37;49m## c. compression to save disk usage for ifgramStack.h5 file:[0m
+[37;49m## no   - save   0% disk usage, fast [default][0m
+[37;49m## lzf  - save ~57% disk usage, relative slow[0m
+[37;49m## gzip - save ~62% disk usage, very slow [not recommend][0m
+[92;49mmintpy.load.processor[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[isce, aria, hyp3, gmtsar, snap, gamma, roi[0m
+[92;49mmintpy.load.autoPath[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for no, use pre-defined au[0m
+[92;49mmintpy.load.updateMode[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes, skip re-loading i[0m
+[92;49mmintpy.load.compression[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[gzip / lzf / none / default], auto for def[0m
+[92;49mmintpy.load.frequency[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[auto / A / B], auto for A, NISAR only[0m
+[37;49m##---------for ISCE only:[0m
+[92;49mmintpy.load.metaFile[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of common metadata file for the stack[0m
+[92;49mmintpy.load.baselineDir[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of the baseline dir], i.e.: ./baselin[0m
+[37;49m##---------interferogram stack:[0m
+[92;49mmintpy.load.unwFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of unwrapped interferogram fi[0m
+[92;49mmintpy.load.corFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of spatial coherence       fi[0m
+[92;49mmintpy.load.connCompFile[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of connected components    fi[0m
+[92;49mmintpy.load.intFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of wrapped interferogram   fi[0m
+[92;49mmintpy.load.magFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of interferogram magnitude fi[0m
+[37;49m##---------ionosphere stack (optional):[0m
+[92;49mmintpy.load.ionUnwFile[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of unwrapped interferogram fi[0m
+[92;49mmintpy.load.ionCorFile[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of spatial coherence       fi[0m
+[92;49mmintpy.load.ionConnCompFile[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of connected components    fi[0m
+[37;49m##---------offset stack (optional):[0m
+[92;49mmintpy.load.azOffFile[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of azimuth offset file][0m
+[92;49mmintpy.load.rgOffFile[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of range   offset file][0m
+[92;49mmintpy.load.azOffStdFile[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of azimuth offset variance fi[0m
+[92;49mmintpy.load.rgOffStdFile[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of range   offset variance fi[0m
+[92;49mmintpy.load.offSnrFile[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of offset signal-to-noise rat[0m
+[37;49m##---------geometry:[0m
+[92;49mmintpy.load.demFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of DEM file][0m
+[92;49mmintpy.load.lookupYFile[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of latitude /row   /y coordinate file[0m
+[92;49mmintpy.load.lookupXFile[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of longitude/column/x coordinate file[0m
+[92;49mmintpy.load.incAngleFile[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of incidence angle file], optional bu[0m
+[92;49mmintpy.load.azAngleFile[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of azimuth   angle file], optional[0m
+[92;49mmintpy.load.shadowMaskFile[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of shadow mask file], optional but re[0m
+[92;49mmintpy.load.waterMaskFile[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path of water  mask file], optional but re[0m
+[92;49mmintpy.load.bperpFile[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path pattern of 2D perpendicular baseline [0m
+[37;49m##---------subset (optional):[0m
+[37;49m## if both yx and lalo are specified, use lalo option unless a) no lookup file A[0m
+[92;49mmintpy.subset.yx[0m[97;49m            [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m    [0m[37;49m#[y0:y1,x0:x1 / no], auto for no[0m
+[92;49mmintpy.subset.lalo[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m    [0m[37;49m#[S:N,W:E / no], auto for no[0m
+[37;49m##---------multilook (optional):[0m
+[37;49m## multilook while loading data with the specified method, to reduce dataset siz[0m
+[37;49m## method - nearest, mean and median methods are applicable to interferogram/ion[0m
+[37;49m##   connected components and all geometry datasets, for which nearest is hardwi[0m
+[37;49m## Use mean / median method with caution! It could smoothen the noise for a bett[0m
+[37;49m##   unwrapping errors, breaking the integer 2pi relationship, which is used in [0m
+[37;49m##   If you really want to increase the SNR, consider re-generate your stack of [0m
+[92;49mmintpy.multilook.method[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m    [0m[37;49m#[nearest, mean, median], auto for nearest[0m
+[92;49mmintpy.multilook.ystep[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m    [0m[37;49m#[int >= 1], auto for 1 - no multilooking[0m
+[92;49mmintpy.multilook.xstep[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m    [0m[37;49m#[int >= 1], auto for 1 - no multilooking[0m
+
+
+[37;49m########## 2. modify_network[0m
+[37;49m## 1) Network modification based on temporal/perpendicular baselines, date, num [0m
+[92;49mmintpy.network.tempBaseMax[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf, no], auto for no, max temporal b[0m
+[92;49mmintpy.network.perpBaseMax[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf, no], auto for no, max perpendicu[0m
+[92;49mmintpy.network.connNumMax[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf, no], auto for no, max number of [0m
+[92;49mmintpy.network.startDate[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20090101 / no], auto for no[0m
+[92;49mmintpy.network.endDate[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20110101 / no], auto for no[0m
+[92;49mmintpy.network.excludeDate[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20080520,20090817 / no], auto for no[0m
+[92;49mmintpy.network.excludeDate12[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20080520_20090817 / no], auto for no[0m
+[92;49mmintpy.network.excludeIfgIndex[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1:5,25 / no], auto for no, list of ifg [0m
+[92;49mmintpy.network.referenceFile[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[date12_list.txt / ifgramStack.h5 / no],[0m
+
+[37;49m## 2) Data-driven network modification[0m
+[37;49m## a - Coherence-based network modification = (threshold + MST) by default[0m
+[37;49m## reference: Yunjun et al. (2019, section 4.2 and 5.3.1); Chaussard et al. (201[0m
+[37;49m## It calculates a average coherence for each interferogram using spatial cohere[0m
+[37;49m## Then it finds a minimum spanning tree (MST) network with inverse of average c[0m
+[37;49m## Next it excludes interferograms if a) the average coherence < minCoherence AN[0m
+[92;49mmintpy.network.coherenceBased[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for no, exclude interfe[0m
+[92;49mmintpy.network.minCoherence[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[0.0-1.0], auto for 0.7[0m
+
+[37;49m## b - Effective Coherence Ratio network modification = (threshold + MST) by def[0m
+[37;49m## reference: Kang et al. (2021, RSE)[0m
+[37;49m## It calculates the area ratio of each interferogram that is above a spatial co[0m
+[37;49m## This threshold is defined as the spatial coherence of the interferograms with[0m
+[37;49m## It then finds a minimum spanning tree (MST) network with inverse of the area [0m
+[37;49m## Next it excludes interferograms if a) the area ratio < minAreaRatio AND b) no[0m
+[92;49mmintpy.network.areaRatioBased[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for no, exclude interfe[0m
+[92;49mmintpy.network.minAreaRatio[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[0.0-1.0], auto for 0.75[0m
+
+[37;49m## Additional common parameters for the 2) data-driven network modification[0m
+[92;49mmintpy.network.keepMinSpanTree[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes, keep interfero[0m
+[92;49mmintpy.network.maskFile[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[file name, no], auto for waterMask.h5 o[0m
+[92;49mmintpy.network.aoiYX[0m[97;49m           [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[y0:y1,x0:x1 / no], auto for no, area of[0m
+[92;49mmintpy.network.aoiLALO[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[S:N,W:E / no], auto for no - use the wh[0m
+
+
+[37;49m########## 3. reference_point[0m
+[37;49m## Reference all interferograms to one common point in space[0m
+[37;49m## auto - randomly select a pixel with coherence > minCoherence[0m
+[37;49m## however, manually specify using prior knowledge of the study area is highly r[0m
+[37;49m##   with the following guideline (section 4.3 in Yunjun et al., 2019):[0m
+[37;49m## 1) located in a coherence area, to minimize the decorrelation effect.[0m
+[37;49m## 2) not affected by strong atmospheric turbulence, i.e. ionospheric streaks[0m
+[37;49m## 3) close to and with similar elevation as the AOI, to minimize the impact of [0m
+[92;49mmintpy.reference.yx[0m[97;49m            [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[257,151 / auto][0m
+[92;49mmintpy.reference.lalo[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[31.8,130.8 / auto][0m
+[92;49mmintpy.reference.maskFile[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[filename / no], auto for maskConnComp.[0m
+[92;49mmintpy.reference.coherenceFile[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[filename], auto for avgSpatialCoh.h5[0m
+[92;49mmintpy.reference.minCoherence[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[0.0-1.0], auto for 0.85, minimum coher[0m
+
+
+[37;49m########## quick_overview[0m
+[37;49m## A quick assessment of:[0m
+[37;49m## 1) possible groud deformation[0m
+[37;49m##    using the velocity from the traditional interferogram stacking[0m
+[37;49m##    reference: Zebker et al. (1997, JGR)[0m
+[37;49m## 2) distribution of phase unwrapping error[0m
+[37;49m##    from the number of interferogram triplets with non-zero integer ambiguity [0m
+[37;49m##    reference: T_int in Yunjun et al. (2019, CAGEO). Related to section 3.2, e[0m
+
+
+[37;49m########## 4. correct_unwrap_error (optional)[0m
+[37;49m## connected components (mintpy.load.connCompFile) are required for this step.[0m
+[37;49m## SNAPHU (Chem & Zebker,2001) is currently the only unwrapper that provides con[0m
+[37;49m## reference: Yunjun et al. (2019, section 3)[0m
+[37;49m## supported methods:[0m
+[37;49m## a. phase_closure          - suitable for highly redundant network[0m
+[37;49m## b. bridging               - suitable for regions separated by narrow decorrel[0m
+[37;49m## c. bridging+phase_closure - recommended when there is a small percentage of e[0m
+[92;49mmintpy.unwrapError.method[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[bridging / phase_closure / bridging[0m
+[92;49mmintpy.unwrapError.waterMaskFile[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[waterMask.h5 / no], auto for waterM[0m
+[92;49mmintpy.unwrapError.connCompMinArea[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf], auto for 2.5e3, discard reg[0m
+
+[37;49m## phase_closure options:[0m
+[37;49m## numSample - a region-based strategy is implemented to speedup L1-norm regular[0m
+[37;49m##     Instead of inverting every pixel for the integer ambiguity, a common conn[0m
+[37;49m##     for each common conn. comp., numSample pixels are radomly selected for in[0m
+[37;49m##     are used for all pixels within this common conn. comp.[0m
+[92;49mmintpy.unwrapError.numSample[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[int>1], auto for 100, number of sam[0m
+
+[37;49m## bridging options:[0m
+[37;49m## ramp - a phase ramp could be estimated based on the largest reliable region, [0m
+[37;49m##     before estimating the phase difference between reliable regions and added[0m
+[37;49m## bridgePtsRadius - half size of the window used to calculate the median value [0m
+[92;49mmintpy.unwrapError.ramp[0m[97;49m            [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[linear / quadratic], auto for no; r[0m
+[92;49mmintpy.unwrapError.bridgePtsRadius[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf], auto for 50, half size of t[0m
+
+
+[37;49m########## 5. invert_network[0m
+[37;49m## Invert network of interferograms into time-series using weighted least square[0m
+[37;49m## weighting options for least square inversion [fast option available but not b[0m
+[37;49m## a. var - use inverse of covariance as weight (Tough et al., 1995; Guarnieri &[0m
+[37;49m## b. fim - use Fisher Information Matrix as weight (Seymour & Cumming, 1994; Sa[0m
+[37;49m## c. coh - use coherence as weight (Perissin & Wang, 2012)[0m
+[37;49m## d. no  - uniform weight (Berardino et al., 2002) [fast][0m
+[37;49m## SBAS (Berardino et al., 2002) = minNormVelocity (yes) + weightFunc (no)[0m
+[92;49mmintpy.networkInversion.weightFunc[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[var / fim / coh / no], auto for[0m
+[92;49mmintpy.networkInversion.waterMaskFile[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[filename / no], auto for waterM[0m
+[92;49mmintpy.networkInversion.minNormVelocity[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[yes / no], auto for yes, min-no[0m
+
+[37;49m## mask options for unwrapPhase of each interferogram before inversion (recommen[0m
+[37;49m## a. coherence              - mask out pixels with spatial coherence < maskThre[0m
+[37;49m## b. connectComponent       - mask out pixels with False/0 value[0m
+[37;49m## c. no                     - no masking [recommended].[0m
+[37;49m## d. range/azimuthOffsetStd - mask out pixels with offset std. dev. > maskThres[0m
+[92;49mmintpy.networkInversion.maskDataset[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[coherence / connectComponent / ra[0m
+[92;49mmintpy.networkInversion.maskThreshold[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[0-inf], auto for 0.4[0m
+[92;49mmintpy.networkInversion.minRedundancy[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[1-inf], auto for 1.0, min num_ifg[0m
+
+[37;49m## Temporal coherence is calculated and used to generate the mask as the reliabi[0m
+[37;49m## reference: Pepe & Lanari (2006, IEEE-TGRS)[0m
+[92;49mmintpy.networkInversion.minTempCoh[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[0.0-1.0], auto for 0.7, min tempora[0m
+[92;49mmintpy.networkInversion.minNumPixel[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[int > 1], auto for 100, min number [0m
+[92;49mmintpy.networkInversion.shadowMask[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[yes / no], auto for yes [if shadowM[0m
+
+
+[37;49m########## correct_LOD[0m
+[37;49m## Local Oscillator Drift (LOD) correction (for Envisat only)[0m
+[37;49m## reference: Marinkovic and Larsen (2013, Proc. LPS)[0m
+[37;49m## automatically applied to Envisat data (identified via PLATFORM attribute)[0m
+[37;49m## and skipped for all the other satellites.[0m
+
+
+[37;49m########## 6. correct_SET[0m
+[37;49m## Solid Earth tides (SET) correction [need to install insarlab/PySolid][0m
+[37;49m## reference: Milbert (2018); Yunjun et al. (2022, IEEE-TGRS)[0m
+[92;49mmintpy.solidEarthTides[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m#[yes / no], auto for no[0m
+
+
+[37;49m########## 7. correct_ionosphere (optional but recommended)[0m
+[37;49m## correct ionospheric delay [need split spectrum results from ISCE-2 stack proc[0m
+[37;49m## reference:[0m
+[37;49m##   ISCE-2 topsApp/topsStack: Liang et al. (2019, IEEE-TGRS)[0m
+[37;49m##   ISCE-2 stripmapApp/stripmapStack: Fattahi et al. (2017, IEEE-TGRS)[0m
+[37;49m##   ISCE-2 alos2App/alosStack: Liang et al. (2018, IEEE-TGRS)[0m
+[92;49mmintpy.ionosphericDelay.method[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[split_spectrum / no], auto for n[0m
+[92;49mmintpy.ionosphericDelay.excludeDate[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20080520,20090817 / no], auto fo[0m
+[92;49mmintpy.ionosphericDelay.excludeDate12[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20080520_20090817 / no], auto fo[0m
+
+
+[37;49m########## 8. correct_troposphere (optional but recommended)[0m
+[37;49m## correct tropospheric delay using the following methods:[0m
+[37;49m## a. height_correlation - correct stratified tropospheric delay (Doin et al., 2[0m
+[37;49m## b. pyaps - use Global Atmospheric Models (GAMs) data (Jolivet et al., 2011; 2[0m
+[37;49m##      ERA5  - ERA5    from ECMWF [need to install PyAPS from GitHub; recommend[0m
+[37;49m##      MERRA - MERRA-2 from NASA  [need to install PyAPS from Caltech/EarthDef][0m
+[37;49m##      NARR  - NARR    from NOAA  [need to install PyAPS from Caltech/EarthDef;[0m
+[37;49m## c. gacos - use GACOS with the iterative tropospheric decomposition model (Yu [0m
+[37;49m##      need to manually download GACOS products at http://www.gacos.net for all[0m
+[37;49m## d. opera - use OPERA L4 tropospheric zenith delay products[0m
+[92;49mmintpy.troposphericDelay.method[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[pyaps / height_correlation / gacos / o[0m
+
+[37;49m## Notes for pyaps:[0m
+[37;49m## a. GAM data latency: with the most recent SAR data, there will be GAM data mi[0m
+[37;49m##    will be applied to dates with GAM data available and skipped for the other[0m
+[37;49m## b. WEATHER_DIR: if you define an environment variable named WEATHER_DIR to co[0m
+[37;49m##    directory, then MintPy applications will download the GAM files into the i[0m
+[37;49m##    MintPy application will look for the GAM files in the directory before dow[0m
+[37;49m##    prevent downloading multiple copies if you work with different dataset tha[0m
+[92;49mmintpy.troposphericDelay.weatherModel[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[ERA5 / MERRA / NARR], auto for E[0m
+[92;49mmintpy.troposphericDelay.weatherDir[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[path2directory], auto for WEATHE[0m
+
+[37;49m## Notes for height_correlation:[0m
+[37;49m## Extra multilooking is applied to estimate the empirical phase/elevation ratio[0m
+[37;49m## For an dataset with 5 by 15 looks, looks=8 will generate phase with (5*8) by [0m
+[37;49m## to estimate the empirical parameter; then apply the correction to original ph[0m
+[37;49m## if the phase/elevation correlation is larger than minCorrelation.[0m
+[92;49mmintpy.troposphericDelay.polyOrder[0m[97;49m      [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1 / 2 / 3], auto for 1[0m
+[92;49mmintpy.troposphericDelay.looks[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf], auto for 8, extra mult[0m
+[92;49mmintpy.troposphericDelay.minCorrelation[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[0.0-1.0], auto for 0[0m
+
+[37;49m## Notes for gacos:[0m
+[37;49m## Set the path below to directory that contains the downloaded *.ztd* files[0m
+[92;49mmintpy.troposphericDelay.gacosDir[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m# [path2directory], auto for "./GACOS"[0m
+
+[37;49m## Notes for opera:[0m
+[37;49m## Set the path below to directory that contains downloaded OPERA *.nc files[0m
+[92;49mmintpy.troposphericDelay.operaDir[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m [0m[37;49m# [path2directory], auto for "./OPERA"[0m
+
+
+[37;49m########## 9. deramp (optional)[0m
+[37;49m## Estimate and remove a phase ramp for each acquisition based on the reliable p[0m
+[37;49m## Recommended for localized deformation signals, i.e. volcanic deformation, lan[0m
+[37;49m## NOT recommended for long spatial wavelength deformation signals, i.e. co-, po[0m
+[92;49mmintpy.deramp[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[no / linear / quadratic], auto for no - no ramp[0m
+[92;49mmintpy.deramp.maskFile[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[filename / no], auto for maskTempCoh.h5, mask f[0m
+
+
+[37;49m########## 10. correct_topography (optional but recommended)[0m
+[37;49m## Topographic residual (DEM error) correction[0m
+[37;49m## reference: Fattahi and Amelung (2013, IEEE-TGRS)[0m
+[37;49m## stepDate          - specify stepDate option if you know there are sudden disp[0m
+[37;49m##                     e.g. volcanic eruption, or earthquake[0m
+[37;49m## excludeDate       - dates excluded for the error estimation[0m
+[37;49m## pixelwiseGeometry - use pixel-wise geometry (incidence angle & slant range di[0m
+[37;49m##                     yes - use pixel-wise geometry if they are available [slow[0m
+[37;49m##                     no  - use the mean   geometry [fast][0m
+[92;49mmintpy.topographicResidual[0m[97;49m                   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes[0m
+[92;49mmintpy.topographicResidual.polyOrder[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[1-inf], auto for 2, poly [0m
+[92;49mmintpy.topographicResidual.phaseVelocity[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for no - [0m
+[92;49mmintpy.topographicResidual.stepDate[0m[97;49m          [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20080529,20190704T1733 / [0m
+[92;49mmintpy.topographicResidual.excludeDate[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[20070321 / txtFile / no],[0m
+[92;49mmintpy.topographicResidual.pixelwiseGeometry[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes, [0m
+
+
+[37;49m########## 11.1 residual_RMS (root mean squares for noise evaluation)[0m
+[37;49m## Calculate the Root Mean Square (RMS) of residual phase time-series for each a[0m
+[37;49m## reference: Yunjun et al. (2019, section 4.9 and 5.4)[0m
+[37;49m## To get rid of long spatial wavelength component, a ramp is removed for each a[0m
+[37;49m## Set optimal reference date to date with min RMS[0m
+[37;49m## Set exclude dates (outliers) to dates with RMS > cutoff * median RMS (Median [0m
+[92;49mmintpy.residualRMS.maskFile[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[file name / no], auto for maskTempCoh.h5, [0m
+[92;49mmintpy.residualRMS.deramp[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[quadratic / linear / no], auto for quadrat[0m
+[92;49mmintpy.residualRMS.cutoff[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[0.0-inf], auto for 3[0m
+
+[37;49m########## 11.2 reference_date[0m
+[37;49m## Reference all time-series to one date in time[0m
+[37;49m## reference: Yunjun et al. (2019, section 4.9)[0m
+[37;49m## no     - do not change the default reference date (1st date)[0m
+[92;49mmintpy.reference.date[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[reference_date.txt / 20090214 / no], auto for r[0m
+
+
+[37;49m########## 12. velocity[0m
+[37;49m## Estimate a suite of time functions [linear velocity by default][0m
+[37;49m## from final displacement file (and from tropospheric delay file if exists)[0m
+[92;49mmintpy.timeFunc.startDate[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[20070101 / no], auto for no[0m
+[92;49mmintpy.timeFunc.endDate[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[20101230 / no], auto for no[0m
+[92;49mmintpy.timeFunc.excludeDate[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[exclude_date.txt / 20080520,20090817 / no[0m
+
+[37;49m## Fit a suite of time functions[0m
+[37;49m## reference: Hetland et al. (2012, JGR) equation (2-9)[0m
+[37;49m## polynomial function    is  defined by its degree in integer. 1 for linear, 2 [0m
+[37;49m## periodic   function(s) are defined by a list of periods in decimal years. 1 f[0m
+[37;49m## step       function(s) are defined by a list of onset times in str in YYYYMMD[0m
+[37;49m## exp & log  function(s) are defined by an onset time followed by an charateris[0m
+[37;49m##   Multiple exp and log functions can be overlaied on top of each other, achie[0m
+[37;49m##   20110311,60,120          - two functions sharing the same onset time OR[0m
+[37;49m##   20110311,60;20170908,120 - separated by ";"[0m
+[92;49mmintpy.timeFunc.polynomial[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[int >= 0], auto for 1, degree of the polyn[0m
+[92;49mmintpy.timeFunc.periodic[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[1,0.5 / list_of_float / no], auto for no, [0m
+[92;49mmintpy.timeFunc.stepDate[0m[97;49m   [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[20110311,20170908 / 20120928T1733 / no], a[0m
+[92;49mmintpy.timeFunc.exp[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[20110311,60 / 20110311,60,120 / 20110311,6[0m
+[92;49mmintpy.timeFunc.log[0m[97;49m        [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[20110311,60 / 20110311,60,120 / 20110311,6[0m
+
+[37;49m## Uncertainty quantification methods:[0m
+[37;49m## a. residue    - propagate from fitting residue assuming normal dist. in time [0m
+[37;49m## b. covariance - propagate from time series (co)variance matrix[0m
+[37;49m## c. bootstrap  - bootstrapping (independently resampling with replacement; Efr[0m
+[92;49mmintpy.timeFunc.uncertaintyQuantification[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[residue, covariance, bootst[0m
+[92;49mmintpy.timeFunc.timeSeriesCovFile[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[filename / no], auto for no[0m
+[92;49mmintpy.timeFunc.bootstrapCount[0m[97;49m            [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[int>1], auto for 400, numbe[0m
+
+
+[37;49m########## 13.1 geocode (post-processing)[0m
+[37;49m# for input dataset in radar coordinates only[0m
+[37;49m# commonly used resolution in meters and in degrees (on equator)[0m
+[37;49m# 100,         90,          60,          50,          40,          30,          [0m
+[37;49m# 0.000925926, 0.000833334, 0.000555556, 0.000462963, 0.000370370, 0.000277778, [0m
+[92;49mmintpy.geocode[0m[97;49m              [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes[0m
+[92;49mmintpy.geocode.SNWE[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[-1.2,0.5,-92,-91 / none ], auto for none, [0m
+[92;49mmintpy.geocode.laloStep[0m[97;49m     [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[-0.000555556,0.000555556 / None], auto for[0m
+[92;49mmintpy.geocode.interpMethod[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[nearest], auto for nearest, interpolation [0m
+[92;49mmintpy.geocode.fillValue[0m[97;49m    [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[np.nan, 0, ...], auto for np.nan, fill val[0m
+
+[37;49m########## 13.2 google_earth (post-processing)[0m
+[92;49mmintpy.save.kmz[0m[97;49m             [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[yes / no], auto for yes, save geocoded ve[0m
+
+[37;49m########## 13.3 hdfeos5 (post-processing)[0m
+[92;49mmintpy.save.hdfEos5[0m[97;49m         [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[yes / no], auto for no, save time-series [0m
+[92;49mmintpy.save.hdfEos5.update[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[yes / no], auto for no, put XXXXXXXX as e[0m
+[92;49mmintpy.save.hdfEos5.subset[0m[97;49m  [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m   [0m[37;49m#[yes / no], auto for no, put subset range [0m
+
+[37;49m########## 13.4 plot[0m
+[37;49m# for high-resolution plotting, increase mintpy.plot.maxMemory[0m
+[37;49m# for fast plotting with more parallelization, decrease mintpy.plot.maxMemory[0m
+[92;49mmintpy.plot[0m[97;49m           [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[yes / no], auto for yes, plot files generated by[0m
+[92;49mmintpy.plot.dpi[0m[97;49m       [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[int], auto for 150, number of dots per inch (DPI[0m
+[92;49mmintpy.plot.maxMemory[0m[97;49m [0m[91;49m=[0m[97;49m [0m[93;49mauto[0m[97;49m  [0m[37;49m#[float], auto for 4, max memory used by one call [0m
+

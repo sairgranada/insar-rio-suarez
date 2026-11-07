@@ -1,0 +1,25 @@
+﻿Geometría,Estación,Píxeles a 500 m,Píxeles a 1000 m,Píxeles a 2000 m,Resultado
+Descendente,CHRL,0,0,0,sin píxeles InSAR confiables
+Descendente,PAT4,125,479,1854,sin velocidad GNSS
+Descendente,SUAM,0,0,0,sin píxeles InSAR confiables
+Descendente,VMES,113,361,1386,ok
+Descendente,VELZ,111,431,1572,ok
+Descendente,FLRN,120,335,822,sin velocidad GNSS
+Descendente,VBUV,105,426,1841,sin velocidad GNSS
+Descendente,TUNA,120,488,1971,ok
+Descendente,AGTU,124,493,1963,ok
+Descendente,OAMU,124,493,1964,ok
+Descendente,TEAT,78,384,1819,sin velocidad GNSS
+Descendente,FQNE,0,0,1,sin píxeles InSAR confiables
+Ascendente,CHRL,47,174,577,sin velocidad GNSS
+Ascendente,PAT4,72,352,1639,sin velocidad GNSS
+Ascendente,SUAM,126,493,1960,sin velocidad GNSS
+Ascendente,VMES,0,0,0,sin velocidad GNSS
+Ascendente,VELZ,67,263,846,sin velocidad GNSS
+Ascendente,FLRN,0,0,0,sin velocidad GNSS
+Ascendente,VBUV,0,0,0,sin velocidad GNSS
+Ascendente,TUNA,120,488,1971,sin velocidad GNSS
+Ascendente,AGTU,124,493,1963,sin velocidad GNSS
+Ascendente,OAMU,124,491,1958,sin velocidad GNSS
+Ascendente,TEAT,90,393,1730,sin velocidad GNSS
+Ascendente,FQNE,0,0,0,sin velocidad GNSS

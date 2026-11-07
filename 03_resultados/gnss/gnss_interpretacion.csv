@@ -1,0 +1,13 @@
+﻿Estación,Horizontal resp. Suramérica (mm/año),Azimut (°),Diferencia con el bloque (mm/año),Vertical (mm/año),MIDAS coincide,Lectura
+AGTU,8.5,89.0,3.8,"-6,2 ± 0,7",sí,"registro corto (1,5 años): velocidad solo indicativa"
+CHRL,9.0,89.0,3.3,"-3,0 ± 1,5",sí,"registro corto (1,4 años): velocidad solo indicativa"
+FLRN,31.7,134.0,24.0,"-2,1 ± 1,5",sí,"registro corto (1,0 años): velocidad solo indicativa"
+FQNE,8.0,78.0,4.9,"-33,5 ± 37,3",sí,"registro corto (2,0 años): velocidad solo indicativa"
+OAMU,9.4,99.0,3.1,"-6,7 ± 1,6",sí,"registro corto (1,5 años): velocidad solo indicativa"
+PATU,,,,,,sin serie de posición
+SUAM,6.3,85.0,6.0,"-4,4 ± 1,2",sí,"registro corto (2,0 años): velocidad solo indicativa"
+TEAT,10.0,46.0,9.1,"8,0 ± 3,1",sí,"registro corto (2,0 años): velocidad solo indicativa"
+TUNA,12.2,93.0,0.0,"0,4 ± 1,4",no,velocidad sensible al modelo; con efecto de sismo (Tabla de sismos)
+VBUV,13.6,44.0,10.8,"8,5 ± 1,8",sí,"registro corto (2,0 años): velocidad solo indicativa"
+VELZ,9.5,84.0,3.1,"-7,2 ± 0,7",sí,"registro corto (1,7 años): velocidad solo indicativa"
+VMES,9.0,76.0,4.5,"-3,8 ± 1,1",sí,"registro corto (2,0 años): velocidad solo indicativa"
